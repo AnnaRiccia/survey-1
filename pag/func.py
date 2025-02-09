@@ -94,11 +94,16 @@ class Funz:
             width=1000,
             template="plotly",
             bargap=0.1,
-            bargroupgap=0.1
+            bargroupgap=0.1,
+            plot_bgcolor='white',  # Sfondo del grafico bianco
+            paper_bgcolor='white',  # Sfondo esterno bianco
         )
 
+        fig.update_xaxes(showgrid=False)
+        fig.update_yaxes(showgrid=False)
         st.plotly_chart(fig, theme=None, use_container_width=True)
 
+        
     def plot_role_distribution(self, df):
         it_roles = [
             'IT Manager', 'CIO', 'CFO', 'Coordinatore Data Unit', 'Chief Information Officer',
@@ -113,35 +118,41 @@ class Funz:
         role_counts = df['Ruolo Informatico'].value_counts()
 
         pie_fig = go.Pie(
-                        labels=role_counts.index,
-                        values=role_counts.values,
-                        textinfo='percent+label',
-                        marker=dict(colors=['#1d5b9b', '#a8c8f8'])
-                        )
+            labels=role_counts.index,
+            values=role_counts.values,
+            textinfo='percent+label',
+            marker=dict(colors=['#1d5b9b', '#a8c8f8'])
+        )
 
         it_role_list = df[df['Ruolo Informatico'] == 'Ruolo informatico']['ruolo'].unique()
 
         fig = make_subplots(
-                            rows=1, cols=2,
-                            column_widths=[0.5, 0.5],
-                            specs=[[{'type': 'pie'}, {'type': 'table'}]],
-                            )
+            rows=1, cols=2,
+            column_widths=[0.5, 0.5],
+            specs=[[{'type': 'pie'}, {'type': 'table'}]]
+        )
 
         fig.add_trace(pie_fig, row=1, col=1)
         fig.add_trace(
-                        go.Table(
-                            header=dict(values=["Ruoli Informatici"]),
-                            cells=dict(values=[it_role_list])
-                        ),
-                        row=1, col=2
-                        )
+            go.Table(
+                header=dict(values=["Ruoli Informatici"], fill_color='white', font=dict(color='black')),
+                cells=dict(values=[it_role_list], fill_color='white', font=dict(color='black'))
+            ),
+            row=1, col=2
+        )
 
         fig.update_layout(
-                            title_text=" ",
-                            height=500,
-                            width=1000,
-                            showlegend=False
-                            )
+            title_text=" ",
+            height=500,
+            width=1000,
+            showlegend=False,
+            plot_bgcolor='white',  # Sfondo del grafico bianco
+            paper_bgcolor='white',  # Sfondo esterno bianco
+        )
+
+        # Rimuove la griglia
+        fig.update_xaxes(showgrid=False)
+        fig.update_yaxes(showgrid=False)
 
         st.plotly_chart(fig, use_container_width=True)
 
@@ -166,7 +177,9 @@ class Funz:
                             title_x=0.5,
                             height=500,
                             width=1000,
-                            template='plotly_white'
+                            plot_bgcolor='white', 
+                            paper_bgcolor='white', 
+                    
                             )
 
         st.plotly_chart(fig)
@@ -237,10 +250,7 @@ class Funz:
                 width=1200,
                 showlegend=False,
                 bargap=0.3,
-                paper_bgcolor="white",
-                plot_bgcolor="white",
-                margin=dict(l=50, r=50, t=80, b=150),  # Increased bottom margin
-                template="plotly_white",
+                margin=dict(l=50, r=50, t=80, b=150), 
                 xaxis2=dict(
                     tickangle=90,  # Vertical text
                     tickmode='array',
@@ -253,12 +263,10 @@ class Funz:
                     range=[0, max(maturity_levels.values) * 1.1],
                     tickmode='linear',
                     dtick=10  # Changed to 10
-                )
+                ),
+                    plot_bgcolor='white',  
+            paper_bgcolor='white'
             )
-
-            # Update fonts
-            fig.update_xaxes(tickfont=dict(size=10))
-            fig.update_yaxes(tickfont=dict(size=10))
             
             # Update subplot titles - make them smaller and closer to the plots
             fig.update_annotations(font_size=12, y=0.95)
@@ -274,6 +282,8 @@ class Funz:
                 font=dict(size=14),
                 xanchor='center'
             )
+            fig.update_xaxes(tickfont=dict(size=10))
+            fig.update_yaxes(tickfont=dict(size=10))
 
             st.plotly_chart(fig, theme=None, use_container_width=True)
             
@@ -311,8 +321,6 @@ class Funz:
             title='   ',
             height=500,
             width=800,
-            paper_bgcolor="#f5f5f5",
-            plot_bgcolor="#eaeaea",
             margin=dict(l=40, r=40, t=40, b=40),
             template="plotly"
         )
@@ -339,8 +347,7 @@ class Funz:
             title=" ",
             title_x=0.5,
             height=500,
-            width=1000,
-            template='plotly_white'
+            width=1000
         )
 
         st.plotly_chart(fig)
@@ -388,9 +395,12 @@ class Funz:
             title_x=0.5,
             height=500,
             width=1000,
-            template='plotly_white'
-        )
-
+            template='plotly_white',
+            plot_bgcolor='white',  
+            paper_bgcolor='white', )
+        
+        fig.update_xaxes(showgrid=False)
+        fig.update_yaxes(showgrid=False)
         st.plotly_chart(fig, theme=None, use_container_width=True)
 
     ##################################################################################################### stimoli trans ###########################################################################################
@@ -431,67 +441,75 @@ class Funz:
                     width=500,
                     height=500,
                     )
+        fig.update_xaxes(showgrid=False)
+        fig.update_yaxes(showgrid=False)
         
-        fig.update_layout(showlegend=False)
+        fig.update_layout(showlegend=False,
+                          plot_bgcolor='white', 
+                        paper_bgcolor='white', )
         st.plotly_chart(fig, theme=None, use_container_width=True)
 ## originale 488
 ########################################################## COINVOGLIEMNTO LEADER ###################################################################
     def plot_coinvolgimento_leader(self, df):
-            mappa_coinvolgimento = {
-                0: 'Per niente coinvolto',
-                2: 'Poco coinvolto',
-                3: 'Parzialmente coinvolto',
-                4: 'Molto coinvolto',
-                5: 'Pienamente coinvolto'
-            }
+        mappa_coinvolgimento = {
+            0: 'Per niente coinvolto',
+            2: 'Poco coinvolto',
+            3: 'Parzialmente coinvolto',
+            4: 'Molto coinvolto',
+            5: 'Pienamente coinvolto'
+        }
 
-            df['coinvolgimento_leader'] = df['coinvolgimento_leader'].map(mappa_coinvolgimento)
-            coinvolgimento_counts = df['coinvolgimento_leader'].value_counts().sort_index()
+        df['coinvolgimento_leader'] = df['coinvolgimento_leader'].map(mappa_coinvolgimento)
+        coinvolgimento_counts = df['coinvolgimento_leader'].value_counts().sort_index()
 
-            total = coinvolgimento_counts.sum()
-            percentages = (coinvolgimento_counts / total) * 100
+        total = coinvolgimento_counts.sum()
+        percentages = (coinvolgimento_counts / total) * 100
 
-            fig = make_subplots(
-                rows=1, cols=2,
-                specs=[[{'type': 'pie'}, {'type': 'bar'}]],
-                horizontal_spacing=0.2
-            )
+        fig = make_subplots(
+            rows=1, cols=2,
+            specs=[[{'type': 'pie'}, {'type': 'bar'}]],
+            horizontal_spacing=0.2
+        )
 
-            fig.add_trace(
-                go.Pie(
-                    labels=coinvolgimento_counts.index.astype(str),
-                    values=coinvolgimento_counts.values,
-                    marker=dict(colors=self.colors_red[:len(coinvolgimento_counts)]),  # Pie chart uses 'colors' (plural)
-                    textinfo='percent+label',
-                    textposition='outside',
-                    pull=[0.1] * len(coinvolgimento_counts)
-                ),
-                row=1, col=1
-            )
+        fig.add_trace(
+            go.Pie(
+                labels=coinvolgimento_counts.index.astype(str),
+                values=coinvolgimento_counts.values,
+                marker=dict(colors=self.colors_red[:len(coinvolgimento_counts)]),
+                textinfo='percent+label',
+                textposition='outside',
+                pull=[0.1] * len(coinvolgimento_counts)
+            ),
+            row=1, col=1
+        )
 
-            fig.add_trace(
-                go.Bar(
-                    x=coinvolgimento_counts.index.astype(str),
-                    y=coinvolgimento_counts.values,
-                    text=percentages.round(1).astype(str) + '%',
-                    textposition='auto',
-                    marker=dict(color=self.colors_red[:len(coinvolgimento_counts)])  # Bar chart uses 'color' (singular)
-                ),
-                row=1, col=2
-            )
+        fig.add_trace(
+            go.Bar(
+                x=coinvolgimento_counts.index.astype(str),
+                y=coinvolgimento_counts.values,
+                text=percentages.round(1).astype(str) + '%',
+                textposition='auto',
+                marker=dict(color=self.colors_red[:len(coinvolgimento_counts)])
+            ),
+            row=1, col=2
+        )
 
-            fig.update_layout(
-                height=500,
-                width=500,
-                showlegend=False,
-                bargap=0.1,
-                paper_bgcolor="#f5f5f5",
-                plot_bgcolor="#eaeaea",
-                margin=dict(l=40, r=40, t=0, b=40),
-                template="plotly"
-            )
+        # Imposta sfondo bianco e rimuove la griglia
+        fig.update_layout(
+            height=500,
+            width=500,
+            showlegend=False,
+            bargap=0.1,
+            margin=dict(l=40, r=40, t=0, b=40),
+            plot_bgcolor='white',  
+            paper_bgcolor='white'   
+        )
 
-            st.plotly_chart(fig, theme=None, use_container_width=True)
+        fig.update_xaxes(showgrid=False)
+        fig.update_yaxes(showgrid=False)
+
+        st.plotly_chart(fig, theme=None, use_container_width=True)
+
 
 ############################################################################################### responsabilità dipendenti ######################################################################
 
@@ -528,7 +546,12 @@ class Funz:
                     width=800,
                     height=800
                     )
-        fig.update_layout(showlegend=False)
+        fig.update_xaxes(showgrid=False)
+        fig.update_yaxes(showgrid=False)
+        fig.update_layout(showlegend=False,
+                        plot_bgcolor='white',  
+                        paper_bgcolor='white'  
+        )
         st.plotly_chart(fig, theme=None, use_container_width=True)
 
 ############################################################################ cosa #############################################################################################################################################
@@ -583,11 +606,13 @@ class Funz:
             width=800,
             showlegend=False,
             bargap=0.1,
-            paper_bgcolor="#f5f5f5",
-            plot_bgcolor="#eaeaea",
             margin=dict(l=40, r=40, t=0, b=40),
-            template="plotly"
+            template="plotly",
+            plot_bgcolor='white',  
+            paper_bgcolor='white'  
         )
+        fig.update_xaxes(showgrid=False)
+        fig.update_yaxes(showgrid=False)
 
         st.plotly_chart(fig, theme=None, use_container_width=True)
 
@@ -645,11 +670,12 @@ class Funz:
             width=1000,
             showlegend=False,
             bargap=0.1,
-            paper_bgcolor="#f5f5f5",
-            plot_bgcolor="#eaeaea",
             margin=dict(l=40, r=40, t=0, b=40),
-            template="plotly"
+            plot_bgcolor='white', 
+            paper_bgcolor='white'
         )
+        fig.update_xaxes(showgrid=False)
+        fig.update_yaxes(showgrid=False)
 
         st.plotly_chart(fig, theme=None, use_container_width=True)
 
@@ -689,8 +715,13 @@ class Funz:
                     width=500,
                     height=500,
                     )
-
-        fig.update_layout(showlegend=False)
+        fig.update_layout(
+            plot_bgcolor='white', 
+            paper_bgcolor='white', 
+            showlegend=False # Sfondo esterno bianco
+        )
+        fig.update_xaxes(showgrid=False)
+        fig.update_yaxes(showgrid=False)
         st.plotly_chart(fig, theme=None, use_container_width=True)
 
     def plot_criticita(self, df):
@@ -735,8 +766,11 @@ class Funz:
             width=400,
             height=500
         )
-        
-        fig.update_layout(showlegend=False)
+        fig.update_xaxes(showgrid=False)
+        fig.update_yaxes(showgrid=False)
+        fig.update_layout(showlegend=False,
+                        plot_bgcolor='white', 
+                        paper_bgcolor='white' )
         st.plotly_chart(fig, theme=None, use_container_width=True)
 
     def analyze_soddisfazione(self, df):
@@ -771,11 +805,12 @@ class Funz:
                             height=500,
                             width=800,
                             title="   ",
-                            paper_bgcolor="#f5f5f5",
-                            plot_bgcolor="#eaeaea",
                             margin=dict(l=40, r=40, t=40, b=40),
-                            template="plotly",
+                            plot_bgcolor='white', 
+                        paper_bgcolor='white'
                         )
+        fig.update_xaxes(showgrid=False)
+        fig.update_yaxes(showgrid=False)
 
         st.plotly_chart(fig, use_container_width=True)
 
@@ -820,9 +855,7 @@ class Funz:
         fig.update_layout(
             height=500, 
             width=800,
-            title="   ",  # Titolo del grafico
-            paper_bgcolor="#f5f5f5",
-            plot_bgcolor="#eaeaea", 
+            title="   ",  # Titolo del grafico 
             margin=dict(l=40, r=40, t=40, b=40),
             template="plotly"
         )
@@ -874,12 +907,12 @@ class Funz:
                         width=800,
                         title="  ",  # Titolo del grafico
                         showlegend=False, 
-                        paper_bgcolor="#f5f5f5",
-                        plot_bgcolor="#eaeaea", 
                         margin=dict(l=40, r=40, t=40, b=40),
                         template="plotly",
                         )
         # Mostra il grafico in Streamlit
+        fig.update_xaxes(showgrid=False)
+        fig.update_yaxes(showgrid=False)
         st.plotly_chart(fig, use_container_width=True)
 
 #########################################################################
@@ -899,7 +932,7 @@ class GraficoFigure:
             "In disaccordo": 1,
             np.nan: 0  # Se np.nan è una risposta, mappiamola a 0
         }
-
+        self.custom_colors = ['#ffcc66', '#ff9933', '#ff6600', '#cc3300', '#990000']
     def plot_graph(self, column_name):
         """
         Genera un grafico a torta e a barre per una colonna specifica del dataframe.
@@ -936,7 +969,8 @@ class GraficoFigure:
                 texttemplate='%{label}<br><b>%{percent}</b>',
                 textposition='outside',
                 pull=[0.1] * len(competency_counts),
-                showlegend=False
+                showlegend=False,
+            marker=dict(colors=self.custom_colors)
             ),
             row=1, col=1
         )
@@ -946,7 +980,8 @@ class GraficoFigure:
                 x=competency_counts.index,
                 y=competency_counts.values,
                 text=percentages.round(1).astype(str) + '%',
-                textposition='auto'
+                textposition='auto',
+                marker=dict(color=self.custom_colors)
             ),
             row=1, col=2
         )

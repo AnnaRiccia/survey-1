@@ -23,12 +23,12 @@ class Correlazione:
     
     # Mapping dictionaries
     DIGITAL_MATURITY_MAPPING = {
-                                "Siamo un'azienda relativamente digitale; alcuni processi aziendali sono stati digitalizzati con l'introduzione di tecnologie digitali": 'Relativamente digitale',
-                                'È stato avviato qualche progetto pilota di trasformazione digitale che al momento è ancora in corso': 'Qualche progetto avviato',
-                                "Siamo un'azienda totalmente Digital Oriented; tutti i nostri processi sono supportati dall'utilizzo di tecnologie digitali": 'Totalmente Digital Oriented',
-                                'Al momento non è in corso un processo di trasformazione digitale né è stato avviato e concluso in passato': 'Non digitalizzato',
-                                'È stato avviato qualche progetto pilota di trasformazione digitale che è stato interrotto e non portato a compimento': 'Qualche progetto interrotto'
-                                }
+                                'Siamo una azienda relativamente digitale; alcuni processi aziendali sono stati digitalizzati con l\'introduzione di tecnologie digitali': 'Relativamente digitale',
+                'È stato avviato qualche progetto pilota di trasformazione digitale che al momento è ancora in corso': 'Qualche progetto avviato',
+                'Siamo una azienda totalmente Digital Oriented; tutti i nostri processi sono supportati dall\'utilizzo di tecnologie digitali': 'Totalmente Digital Oriented',
+                'Al momento non è in corso un processo di trasformazione digitale né è stato avviato e concluso in passato': 'Non digitalizzato',
+                'È stato avviato qualche progetto pilota di trasformazione digitale che è stato interrotto e non portato a compimento': 'Qualche progetto interrotto'
+            }
     
     SATISFACTION_MAPPING = {
                             5: "Molto soddisfatto",
