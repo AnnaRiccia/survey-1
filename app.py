@@ -16,7 +16,7 @@ def load_dataset():
     data = {}    
     data_config = {
                     'survey': 'data/cleaned_data.xlsx',
-                    #'test': 'data/test.xlsx',
+                    'ecofin': 'data/new.xlsx',
                     }
     for dataset, datatset_path in data_config.items():
         if os.path.exists(datatset_path):
@@ -37,7 +37,7 @@ def get_pages():
     
     BLACKLIST_FILES = ['__init__', 'test','key','func','corr','ANNINA']  # aggiungi qui i file da escludere    
     # page_order = []
-    page_order = ['analisi descrittiva','analisi dimensione','analisi correlazione','self analysis']
+    page_order = ['analisi descrittiva','analisi dimensione','analisi correlazione','analisi ecofin','self analysis']
 
     files = [f[:-3] for f in os.listdir(PAGES) if f.endswith('.py') and f[:-3] not in BLACKLIST_FILES]
     files.sort(key=lambda x: page_order.index(x) if x in page_order else len(page_order))
@@ -48,6 +48,7 @@ def get_pages():
                     'analisi descrittiva': 'bi-bullseye',
                     'analisi dimensione': 'bi-fire',
                     'analisi correlazione': 'bi-feather',
+                    'analisi ecofin': 'bi-currency-euro',
                     'self analysis': 'bi-graph-up',
                     }
     
@@ -92,7 +93,6 @@ class MultiApp:
                                         )        
         selected_index = pages.index(app)
         modules[selected_index].main()
-
 
 
 if __name__ == "__main__":

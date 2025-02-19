@@ -86,10 +86,11 @@ class Key:
         for col in ['infr_hardware', 'infr_software', 'infr_cloud', 'infr_sicurezza']:
             self.df[col] = pd.to_numeric(self.df[col], errors='coerce')  # Converte in numerico, sostituendo eventuali errori con NaN
         # Funzione per creare il grafico con intensità del colore basata sul conteggio delle aziende
-
+    
     def visualizza_maturita_infrastrutture(self):
         """
         Visualizza la relazione tra maturità digitale e infrastrutture con un grafico a barre.
+        I colori sono fissati per ogni tipo di infrastruttura.
         """
         # Applica la mappatura delle risposte
         self.mappa_risposte()
@@ -147,18 +148,23 @@ class Key:
             'infr_sicurezza': 'Sicurezza'
         }
 
-        # Colori per le diverse infrastrutture
-        colori = ['#FAD02E', '#F28D35', '#D83367', '#1F4068']
+        # Definisci i colori fissi per ogni tipo di infrastruttura
+        colori_infrastrutture = {
+            'infr_hardware': '#FAD02E',    # Blu
+            'infr_software': '#F28D35',    # Verde
+            'infr_cloud': '#D83367',       # Giallo
+            'infr_sicurezza': '#1F4068'    # Rosso
+        }
 
         # Aggiungi le barre per ogni infrastruttura
-        for idx, infr in enumerate(infrastrutture):
+        for infr in infrastrutture:
             df_infr = df_grouped[df_grouped['infrastruttura'] == infr]
             
             fig.add_trace(go.Bar(
                 name=nomi_infrastrutture[infr],
                 x=df_infr['maturita_digitale'],
                 y=df_infr[infr],
-                marker_color=colori[idx],
+                marker_color=colori_infrastrutture[infr],
                 hovertemplate=(
                     f"<b>{nomi_infrastrutture[infr]}</b><br>" +
                     "Maturità: %{x}<br>" +
@@ -189,7 +195,7 @@ class Key:
                 'title': 'Media Punteggio Infrastrutture',
                 'title_font': {'size': 16},
                 'tickfont': {'size': 12},
-                'range': [0, 5]  # Assumendo che i punteggi siano da 0 a 5
+                'range': [0, 5]
             },
             barmode='group',
             bargap=0.15,
